@@ -10,23 +10,20 @@ public class OsobaDTO extends UserDTO implements Serializable {
 
 	private String imie;
 	private String nazwisko;
-	private Wojewodztwo wojewodzstwo;
 	
 	public OsobaDTO() {
 	}
 
-	public OsobaDTO(String imie, String nazwisko, Wojewodztwo wojewodzstwo) {
+	public OsobaDTO(String imie, String nazwisko) {
 		super();
 		this.imie = imie;
 		this.nazwisko = nazwisko;
-		this.wojewodzstwo = wojewodzstwo;
 	}
 	
-	public OsobaDTO(Long id, String login, String pass, String imie, String nazwisko, Wojewodztwo wojewodzstwo) {
+	public OsobaDTO(Long id, String login, String pass, String imie, String nazwisko) {
 		super(id, login, pass);
 		this.imie = imie;
 		this.nazwisko = nazwisko;
-		this.wojewodzstwo = wojewodzstwo;
 	}
 
 	public String getImie() {
@@ -43,14 +40,6 @@ public class OsobaDTO extends UserDTO implements Serializable {
 
 	public void setNazwisko(String nazwisko) {
 		this.nazwisko = nazwisko;
-	}
-
-	public Wojewodztwo getWojewodzstwo() {
-		return wojewodzstwo;
-	}
-
-	public void setWojewodzstwo(Wojewodztwo wojewodzstwo) {
-		this.wojewodzstwo = wojewodzstwo;
 	}
 
 }

@@ -8,17 +8,15 @@ public class UserDTO implements Serializable {
 	private Long id;
 	private String login;
 	private String pass;
-	private String email;
 	
 	public UserDTO(){
 	}
 	
-	public UserDTO(Long id, String login, String pass, String email) {
+	public UserDTO(Long id, String login, String pass) {
 		super();
 		this.id = id;
 		this.login = login;
 		this.pass = pass;
-		this.email = email;
 	}
 
 	public String getLogin() {
@@ -43,14 +41,6 @@ public class UserDTO implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 	
 }

@@ -32,7 +32,6 @@ public class LoginBean implements Serializable {
 
 	private String name;
 	private String pass;
-	private String nazwisko;
 	private OsobaDTO osoba;
 	private List<SamochodDTO> samochodyOsoby;
 	private SamochodDTO samochodKontekstowy;
@@ -167,12 +166,5 @@ public class LoginBean implements Serializable {
 		this.wylaczMenu = wylaczMenu;
 	}
 
-	public String getNazwisko() {
-		return nazwisko;
-	}
-
-	public void setNazwisko(String nazwisko) {
-		this.nazwisko = nazwisko;
-	}
 
 }
