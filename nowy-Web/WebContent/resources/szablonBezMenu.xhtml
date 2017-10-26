@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+</h:head>
+
+<h:body>
+	<h:outputStylesheet library="css" name="styl.css" />
+
+	<p:layout style="min-width:400px;min-height:700px;">
+		<p:growl id="msgs" showDetail="true" />
+		<p:layoutUnit class="panel-base" position="center"
+			style="max-height:97vh; min-height:97vh;">
+
+			<div id="content">
+				<ui:insert name="content"></ui:insert>
+			</div>
+		</p:layoutUnit>
+	</p:layout>
+
+</h:body>
+</html>

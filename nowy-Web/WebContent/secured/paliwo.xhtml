@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/resources/szablon.xhtml">
+	<ui:define name="content">
+		<h:panelGroup class="header-panel" layout="block">
+	    	Paliwo
+	    </h:panelGroup>
+
+		<p:fieldset legend="Wprowadzanie danych" toggleable="true" toggleSpeed="500" collapsed="true">
+			<h:form>
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel for="rodzPaliwa" value="Rodzaj paliwa:" />
+					<p:selectOneRadio id="rodzPaliwa" ajax="true" value="#{zapiszPaliwoBean.rodzPaliwa}" layout="grid" columns="1">
+						<p:ajax listener="#{zapiszPaliwoBean.updateRodzPaliwa}" update="rodzPaliwa"/>	
+						<f:selectItem itemLabel="Pb 95" itemValue="Pb 95" />
+						<f:selectItem itemLabel="Pb 98" itemValue="Pb 98" />
+						<f:selectItem itemLabel="ON" itemValue="ON" />
+						<f:selectItem itemLabel="LPG" itemValue="LPG" />
+					</p:selectOneRadio>
+				</h:panelGrid>
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel for="ilPaliwa" value="Ilość paliwa:" />
+					<p:spinner id="ilPaliwa" value="#{zapiszPaliwoBean.iloscPaliwa}" stepFactor="0.05" >
+						<p:ajax listener="#{zapiszPaliwoBean.updateIlPal}" update="ilPaliwa" process="@this" />
+					</p:spinner>
+				</h:panelGrid>
+				<h:panelGrid columns="3" cellpadding="5">
+					<p:outputLabel for="cenaPaliwa" value="Cena paliwa: " />
+					<p:spinner id="cenaPaliwa" value="#{zapiszPaliwoBean.cenaZaLitr}"
+						stepFactor="0.01" >
+						<p:ajax listener="#{zapiszPaliwoBean.updateCena}" update="cenaPaliwa" process="@this" />
+					</p:spinner>
+					<p:outputLabel for="cenaPaliwa" value="[zł / L]" />
+				</h:panelGrid>
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel for="dataPaliwa" value="Data tankowania: " />
+					<p:calendar id="dataPaliwa"	value="#{zapiszPaliwoBean.dataTankowania}" locale="pl"
+							navigator="true" pattern="yyyy-MM-dd" mask="true" >
+						<p:ajax event="dateSelect" listener="#{zapiszPaliwoBean.updateData}" update="dataPaliwa"/>
+						<f:convertDateTime pattern="yyyy-MM-dd"  timeZone="GMT+1" />
+					</p:calendar>
+				</h:panelGrid>
+				<h:panelGrid columns="2"  cellpadding="5">
+					<h:commandButton  process="@form" value="Zapisz" update="@form">
+						<p:ajax event="click" listener="#{zapiszPaliwoBean.zapiszPaliwo()}" ></p:ajax>
+					</h:commandButton>
+				</h:panelGrid>
+
+			</h:form>
+		</p:fieldset>
+		<p:fieldset legend="Podgląd danych" toggleable="true" toggleSpeed="500" >
+			<h:form>
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel for="dataOd" value="Data od" />
+					<p:calendar id="dataOd" ajax="true" value="#{pobierzPaliwoBean.dataOd}" 
+						locale="pl" navigator="true" pattern="yyyy-MM-dd" mask="true" >
+						<p:ajax event="dateSelect" listener="#{pobierzPaliwoBean.updateDataOd}" update="dataOd"/>	
+						<f:convertDateTime pattern="yyyy-MM-dd"  timeZone="GMT+1" />
+					</p:calendar>
+					<p:outputLabel for="dataDo" value="Data do" />
+					<p:calendar id="dataDo" value="#{pobierzPaliwoBean.dataDo}" 
+						locale="pl" navigator="true" pattern="yyyy-MM-dd" mask="true" >
+						<p:ajax event="dateSelect" listener="#{pobierzPaliwoBean.updateDataDo}" update="dataDo"/>
+						<f:convertDateTime pattern="yyyy-MM-dd"  timeZone="GMT+1" />
+					</p:calendar>
+					<h:commandButton process="@form" value="Pobierz" >
+						<p:ajax event="click" listener="#{pobierzPaliwoBean.pobierzPaliwaOsoby()}" update="rowEditingTable"></p:ajax>
+					</h:commandButton>
+				</h:panelGrid>
+			
+				<p:dataTable id="rowEditingTable" var="paliwo"
+					widgetVar="paliwoTable" value="#{pobierzPaliwoBean.paliwa}"
+					paginator="true" rows="10"
+					filteredValue="#{pobierzPaliwoBean.paliwaFiltrowane}"
+					paginatorPosition="bottom" style="width:1000px" editable="true">
+					<f:facet name="header">  
+            		Twoje zapisy tankowania 
+        		</f:facet>
+
+					<p:column filterBy="#{paliwo.rodzPaliwa}">
+						<f:facet name="header">
+							<h:outputText value="Rodzaj paliwa" />
+							<f:facet name="filter">
+								<p:selectOneMenu onchange="PF('paliwoTable').filter()" >
+									<f:selectItem id="rodzPal" itemLabel="Wszystkie" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{pobierzPaliwoBean.rodzajePaliwa}" />
+								</p:selectOneMenu>
+							</f:facet>
+						</f:facet>
+
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{paliwo.rodzPaliwa}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:selectOneMenu value="#{paliwo.rodzPaliwa}" style="width:96%">
+									<f:selectItems value="#{pobierzPaliwoBean.rodzajePaliwa}"
+										var="rodzPaliwa" itemLabel="#{rodzPaliwa}"
+										itemValue="#{rodzPaliwa}" />
+								</p:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column >
+						<f:facet name="header">
+							<h:outputText value="Ilość paliwa" />
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{paliwo.iloscPaliwa}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:spinner value="#{paliwo.iloscPaliwa}" stepFactor="0.05"
+								style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="cena za litr" />
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{paliwo.cenaZaLitr}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:spinner value="#{paliwo.cenaZaLitr}" stepFactor="0.01"
+								 style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column filterBy="#{paliwo.dataTankowania}">
+						<f:facet name="header">
+							<h:outputText value="Data tankowania" />
+							<f:facet name="filter">
+								<h:outputText value=" " />
+							</f:facet>
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{paliwo.dataTankowania}">
+									
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar value="#{paliwo.dataTankowania}" locale="pl"
+									navigator="true" pattern="yyyy-MM-dd" mask="true" style="width:100%" >
+									<f:convertDateTime pattern="yyyy-MM-dd"  timeZone="GMT+1" />
+								</p:calendar>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column style="width:4%" exportable="false">
+						<p:rowEditor />
+					</p:column>
+				</p:dataTable>
+				<br/>
+				<h:commandButton value="Zapisz zmiany"  update="msgs">
+					<p:ajax event="click" listener="#{pobierzPaliwoBean.zapiszEdytowane()}" ></p:ajax>
+				</h:commandButton>
+				<br/>
+				<br/> 
+			</h:form>
+			 
+		</p:fieldset>
+	</ui:define>
+</ui:composition>
+</html>

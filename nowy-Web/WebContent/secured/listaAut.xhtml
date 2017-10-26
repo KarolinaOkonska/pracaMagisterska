@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/resources/szablon.xhtml">
+	<ui:define name="content">
+		 <f:facet name="header" layout="block">
+	    	Lista Twoich samochodów
+	    </f:facet>
+
+		<p:fieldset columns="2" legend="Dodaj samochód" toggleable="true" toggleSpeed="500" collapsed="true">
+			<h:form>
+			
+			<h:panelGrid columns="6" cellpadding="5">
+				<p:outputLabel for="marka" value="Marka:" />
+		        <p:selectOneMenu id="marka" value="#{pobierzSamochodyBean.marka}" style="width:125px">
+		            <p:ajax listener="#{pobierzSamochodyBean.pobierzModele}" update="model wersja" />
+		            <f:selectItem itemLabel="Marka" itemValue="" />
+		            <f:selectItems value="#{pobierzSamochodyBean.marki}" />
+		        </p:selectOneMenu>
+				<p:outputLabel for="model" value="Model:" />
+		        <p:selectOneMenu id="model" value="#{pobierzSamochodyBean.model}" style="width:125px" disabled="#{pobierzSamochodyBean.czyWylaczonyModel}">
+		            <p:ajax listener="#{pobierzSamochodyBean.pobierzWersje}" update="wersja" />
+		            <f:selectItem itemLabel="Model" itemValue="" />
+		            <f:selectItems value="#{pobierzSamochodyBean.modele}" />
+		        </p:selectOneMenu>
+		        <p:outputLabel for="wersja" value="Wersja:" />
+		        <p:selectOneMenu id="wersja" value="#{pobierzSamochodyBean.wersja}" style="width:125px" disabled="#{pobierzSamochodyBean.czyWylaczonaWersja}">
+		            <f:selectItem itemLabel="Wersja" itemValue="" />
+		            <f:selectItems value="#{pobierzSamochodyBean.wersje}" />
+		        </p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="4" cellpadding="5">
+				<p:outputLabel for="rocznik" value="Rocznik: " />
+				<p:spinner id="rocznik" value="#{pobierzSamochodyBean.rocznik}" stepFactor="1" 
+				min="1800" max="2500" >
+				</p:spinner>
+			<p:outputLabel for="vin" value="*Vin: " />
+			<p:inputText id="vin" value="#{pobierzSamochodyBean.vin}" maxlength="17" style="text-transform: uppercase"/>
+			</h:panelGrid>
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:outputLabel for="dataZakupu" value="Data zakupu: " />
+				<p:calendar id="dataZakupu"	value="#{pobierzSamochodyBean.dataZakupu}" locale="pl"
+						navigator="true" pattern="yyyy-MM-dd" mask="true" >
+					
+					<f:convertDateTime pattern="yyyy-MM-dd"  timeZone="GMT+1" />
+				</p:calendar>
+			</h:panelGrid>
+			<h:panelGrid columns="6" cellpadding="5">
+				<p:outputLabel for="rodzajNadwozia" value="Rodzaj nadwozia:" />
+		        <p:selectOneMenu id="rodzajNadwozia" value="#{pobierzSamochodyBean.rodzajNadwozia}" style="width:125px">
+		            <f:selectItem itemLabel="Nadwozie" itemValue="" />
+		            <f:selectItems value="#{pobierzSamochodyBean.rodzajeNadwozia}" var="rodzajNadwozia"
+		             itemValue="#{rodzajNadwozia}" itemLabel="#{rodzajNadwozia.nazwa}" />
+		        </p:selectOneMenu>
+				<p:outputLabel for="rodzajPaliwa" value="Rodzaj Paliwa:" />
+		        <p:selectOneMenu id="rodzajPaliwa" value="#{pobierzSamochodyBean.rodzajPaliwa}" style="width:125px">
+		            <f:selectItem itemLabel="Paliwo" itemValue="" />
+		            <f:selectItems value="#{pobierzSamochodyBean.rodzajePaliwa}" var="rodzajPaliwa"
+		             itemValue="#{rodzajPaliwa}" itemLabel="#{rodzajPaliwa.nazwa}"  />
+		        </p:selectOneMenu>
+		        <p:outputLabel for="rodzajNapedu" value="Rodzaj Napędu:" />
+		        <p:selectOneMenu id="rodzajNapedu" value="#{pobierzSamochodyBean.rodzajNapedu}" style="width:125px">
+		            <f:selectItem itemLabel="Napęd" itemValue="" />
+		            <f:selectItems value="#{pobierzSamochodyBean.rodzajeNapedu}" var="rodzajNapedu"
+		             itemValue="#{rodzajNapedu}" itemLabel="#{rodzajNapedu.nazwa}"  />
+		        </p:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="6" cellpadding="5">
+				<p:outputLabel for="pojemnonsc" value="Pojemność: " />
+				<p:spinner id="pojemnonsc" value="#{pobierzSamochodyBean.pojemnosc}" stepFactor="0.1" 
+					min="0" max="50" >
+				</p:spinner>
+				<p:outputLabel for="przebieg" value="Przebieg: " />
+				<p:spinner id="przebieg" value="#{pobierzSamochodyBean.przebieg}" stepFactor="0.1" 
+					min="0" max="10000000" >
+				</p:spinner>
+				<p:outputLabel for="nrRej" value="*Nr rejestracyjny: " />
+			<p:inputText id="nrRej" value="#{pobierzSamochodyBean.nrRej}" maxlength="7" style="text-transform: uppercase"/>
+			</h:panelGrid>
+			<h:panelGrid columns="2"  cellpadding="5">
+					 <p:commandButton value="Zapisz" id="zapiszAuto" actionListener="#{pobierzSamochodyBean.zapiszSamochod}" ajax="false" />
+				</h:panelGrid>
+			</h:form>
+		</p:fieldset>
+
+		<form>
+		<p:fieldset columns="1" legend="Lista samochodów" toggleable="true" toggleSpeed="500">
+			<p:dataTable var="samochod" draggableColumns="true" style="margin-bottom:20px" value="#{pobierzSamochodyBean.samochody}">
+		    <p:column headerText="Marka">
+		        <h:outputText value="#{samochod.marka}" />
+		    </p:column>
+		 
+		    <p:column headerText="Model">
+		        <h:outputText value="#{samochod.model} (#{samochod.wersja})" />
+		    </p:column>
+		 
+		    <p:column headerText="Rocznik">
+		        <h:outputText value="#{samochod.rocznik}" />
+		    </p:column>
+		 
+		    <p:column headerText="Pojemnosc">
+		        <h:outputText value="#{samochod.pojemnosc}" />
+		    </p:column>
+		    
+			</p:dataTable>
+		</p:fieldset>
+		</form>
+		
+			<p:carousel value="#{pobierzSamochodyBean.samochody}" headerText="Responsive" var="car" itemStyle="text-align:center" responsive="true">
+	        <p:panelGrid columns="2" style="width:100%;margin:10px 0px" columnClasses="label,value" layout="grid" styleClass="ui-panelgrid-blank">
+	            <f:facet name="header">
+	                <p:graphicImage name="../resources/foto/olej.png"/> 
+	            </f:facet>
+	 
+	            <h:outputText value="Marka:" />
+	            <h:outputText value="#{samochod.marka}" />
+	 
+	            <h:outputText value="Model:" />
+	            <h:outputText value="#{samochod.model} (#{samochod.wersja})" />
+	 
+	            <h:outputText value="Rocznik:" />
+	            <h:outputText value="#{samochod.rocznik}"/>
+	 
+	            <h:outputText value="Pojemnosc:" />
+	            <h:outputText value="#{samochod.pojemnosc}" />
+	        </p:panelGrid>
+   		</p:carousel>
+		
+	</ui:define>
+</ui:composition>
+</html>

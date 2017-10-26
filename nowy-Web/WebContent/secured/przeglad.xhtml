@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/resources/szablon.xhtml">
+	<ui:define name="content">
+		<h:panelGroup class="header-panel" layout="block">
+	    	Przeglądy
+	    </h:panelGroup>
+
+		<p:fieldset legend="Wprowadzanie danych" toggleable="true" toggleSpeed="500" collapsed="true">
+			<h:form>
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel for="opisSt" value="Opis stacji:" />
+				    <p:inputTextarea id="opisSt" rows="4" cols="50" counter="display" maxlength="250" counterTemplate="Zostało {0} znaków." 
+				    		autoResize="false" value="#{pobierzPrzegladyBean.opisStacji}" >
+				    	<p:ajax listener="#{pobierzPrzegladyBean.updOpisStacji}" update="opisSt"/>	
+				    </p:inputTextarea>
+				    <h:outputText />
+				    <h:outputText id="display" />
+				    
+					<p:outputLabel for="dataPrzegladu" value="Data przeglądu: " />
+					<p:calendar id="dataPrzegladu"	value="#{pobierzPrzegladyBean.dataPrzegladu}" locale="pl"
+							navigator="true" pattern="yyyy-MM-dd" mask="true" >
+						<p:ajax event="dateSelect" listener="#{pobierzPrzegladyBean.updateDataPrzegladu}" update="dataPrzegladu"/>
+						<f:convertDateTime pattern="yyyy-MM-dd"  timeZone="GMT+1" />
+					</p:calendar>
+					
+					<p:outputLabel for="dataWaznosci" value="Data ważności przeglądu: " />
+					<p:calendar id="dataWaznosci" value="#{pobierzPrzegladyBean.dataWaznosci}" locale="pl"
+							navigator="true" pattern="yyyy-MM-dd" mask="true" >
+						<p:ajax event="dateSelect" listener="#{pobierzPrzegladyBean.updateDataWaznosci}" update="dataWaznosci"/>
+						<f:convertDateTime pattern="yyyy-MM-dd"  timeZone="GMT+1" />
+					</p:calendar>
+					
+					<p:outputLabel for="uwagi" value="Uwagi: " />
+				    <p:inputTextarea id="uwagi" rows="4" cols="50" counter="display2" maxlength="250" counterTemplate="Zostało {0} znaków." 
+				    		autoResize="false" value="#{pobierzPrzegladyBean.opisStacji}" >
+				    	<p:ajax listener="#{pobierzPrzegladyBean.updUwagi}" update="uwagi"/>	
+				    </p:inputTextarea>
+				    <h:outputText  />
+				    <h:outputText id="display2" />
+				    
+				    <h:outputText  />
+				    <h:commandButton value="Zapisz" >
+						<p:ajax event="click" listener="#{pobierzPrzegladyBean.zapiszPrzeglad()}" update="@form"></p:ajax>
+					</h:commandButton>
+				</h:panelGrid>
+				
+				
+			</h:form>
+		</p:fieldset>
+		<p:fieldset legend="Podgląd danych" toggleable="true" toggleSpeed="500" >
+			<h:form>
+				<h:panelGrid columns="4" cellpadding="5">
+					<h:commandButton process="@form" value="Pobierz" >
+						<p:ajax event="click" listener="#{pobierzPrzegladyBean.pobierzPrzegladyOsoby()}" update="rowEditingTable"></p:ajax>
+					</h:commandButton>
+				</h:panelGrid>
+			
+				<p:dataTable id="rowEditingTable" var="przeglad"
+					widgetVar="przegladyTable" value="#{pobierzPrzegladyBean.przeglady}"
+					paginator="true" rows="10"
+					paginatorPosition="bottom" style="width:1000px" editable="true">
+					<f:facet name="header">  
+            		Twoje przeglądy
+        		</f:facet>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Opis stacji" />
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{przeglad.opisStacji}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputTextarea  rows="5" cols="50" maxlength="250" counterTemplate="Zostało {0} znaków." 
+				    				autoResize="false" value="#{pobierzPrzegladyBean.opisStacji}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Data przeglądu" />
+							<f:facet name="filter">
+								<h:outputText value=" " />
+							</f:facet>
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{przeglad.dataPrzegladu}">
+									
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar value="#{pobierzPrzegladyBean.dataPrzegladu}" locale="pl"
+										navigator="true" pattern="yyyy-MM-dd" mask="true" >
+									
+									<f:convertDateTime pattern="yyyy-MM-dd"  timeZone="GMT+1" />
+								</p:calendar>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Data ważności" />
+							<f:facet name="filter">
+								<h:outputText value=" " />
+							</f:facet>
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{przeglad.dataWaznosci}">
+									
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar value="#{pobierzPrzegladyBean.dataWaznosci}" locale="pl"
+										navigator="true" pattern="yyyy-MM-dd" mask="true" >
+									
+									<f:convertDateTime pattern="yyyy-MM-dd"  timeZone="GMT+1" />
+								</p:calendar>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Uwagi" />
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{przeglad.uwagi}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputTextarea rows="5" cols="50" maxlength="250" counterTemplate="Zostało {0} znaków." 
+				    				autoResize="false" value="#{pobierzPrzegladyBean.uwagi}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column style="width:4%" exportable="false">
+						<p:rowEditor />
+					</p:column>
+				</p:dataTable>
+				<br/>
+				<h:commandButton value="Zapisz zmiany"  update="msgs">
+					<p:ajax event="click" listener="#{pobierzPaliwoBean.zapiszEdytowane()}" ></p:ajax>
+				</h:commandButton>
+				<br/>
+				<br/> 
+				
+			</h:form>
+			 
+		</p:fieldset>
+	</ui:define>
+</ui:composition>
+</html>

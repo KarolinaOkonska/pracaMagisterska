@@ -1,0 +1,114 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<script type="text/javascript">
+		PrimeFaces.locales['pl'] = {
+			closeText : 'Zamknij',
+			prevText : 'Poprzedni',
+			nextText : 'Następny',
+			monthNames : [ 'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj',
+					'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień',
+					'Październik', 'Listopad', 'Grudzień' ],
+			monthNamesShort : [ 'Sty', 'Lut', 'Mar', 'Kwi', 'Maj', 'Cze',
+					'Lip', 'Sie', 'Wrz', 'Paź', 'Lis', 'Gru' ],
+			dayNames : [ 'Niedziela', 'Poniedziałek', 'Wtorek', 'Środa',
+					'Czwartek', 'Piątek', 'Sobota' ],
+			dayNamesShort : [ 'Nie', 'Pon', 'Wt', 'Śr', 'Czw', 'Pt', 'So' ],
+			dayNamesMin : [ 'N', 'P', 'W', 'Ś', 'Cz', 'P', 'S' ],
+			weekHeader : 'Tydzień',
+			firstDay : 1,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : 'rok',
+			timeOnlyTitle : 'Tylko czas',
+			timeText : 'Czas',
+			hourText : 'Godzina',
+			minuteText : 'Minuta',
+			secondText : 'Sekunda',
+			currentText : 'Teraz',
+			ampm : false,
+			month : 'Miesiąc',
+			week : 'Tydzień',
+			day : 'Dzień',
+			allDayText : 'Cały dzień'
+		};
+	</script>
+</h:head>
+
+<h:body>
+	<h:outputStylesheet library="css" name="styl.css" />
+
+	<p:layout style="min-width:400px;min-height:700px;">
+
+		<p:layoutUnit class="panel-base" position="north"
+			style="max-height:90px;">
+			<table>
+				<tr>
+					<td><p:link outcome="paliwo" disabled="#{loginBean.wylaczMenu}">
+							<p:graphicImage id="paliwo" class="imageMenu"
+								value="../resources/foto/paliwo.png" height="60" />
+						</p:link> <p:tooltip for="paliwo" value="Paliwo" position="bottom" />
+					</td>
+					<td><p:link outcome="przeglad" disabled="#{loginBean.wylaczMenu}">
+							<p:graphicImage id="przeglad" class="imageMenu"
+								value="../resources/foto/przeglad.png" height="60" />
+						</p:link> <p:tooltip for="przeglad" value="przeglad" position="bottom" />
+					</td>
+					<td><p:link outcome="mandaty" disabled="#{loginBean.wylaczMenu}">
+							<p:graphicImage id="mandat" class="imageMenu"
+								value="../resources/foto/mandaty.png" height="60" />
+						</p:link> <p:tooltip for="mandat" value="mandat" position="bottom" />
+					</td>
+					<td><p:link outcome="paliwo" disabled="#{loginBean.wylaczMenu}">
+							<p:graphicImage id="m" class="imageMenu"
+								value="../resources/foto/naprawy.png" height="60" />
+						</p:link> <p:tooltip for="m" value="mandaty" position="bottom" />
+					</td>
+					<td><p:link outcome="paliwo" disabled="#{loginBean.wylaczMenu}">
+							<p:graphicImage id="m2" class="imageMenu"
+								value="../resources/foto/olej.png" height="60" />
+						</p:link> <p:tooltip for="m2" value="mandaty2" position="bottom" />
+					</td>
+					<td><h:form>
+							<p:growl id="growl" life="2000" />
+							<h:commandLink action="#{loginBean.wyloguj()}">
+								<p:graphicImage class="imageMenu"
+									value="../resources/foto/wyloguj.png" height="60" />
+							</h:commandLink>
+							
+						</h:form></td>
+					<td>
+						<div>
+							<h:form>
+								<p:selectOneMenu id="advanced" value="#{loginBean.samochodKontekstowy}" converter="samochodDTOConverter" 
+                         			effect="fade" style="width:160px" >
+                         			<p:ajax event="change" update="textid"/>
+									<f:selectItems value="#{loginBean.samochodyOsoby}"
+										var="samochod" itemValue="#{samochod}"
+										itemLabel="#{samochod.nazwa}" />
+								</p:selectOneMenu>
+								<h:outputText value="auto kontekst : "></h:outputText>
+								<h:outputText id="textid" value="#{loginBean.samochodKontekstowy.nazwa}" />
+							</h:form>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</p:layoutUnit>
+
+		<p:layoutUnit class="panel-base" position="center"
+			style="max-height:97vh; min-height:97vh;">
+			<p:growl id="msgs" showDetail="true" />
+			<div id="content">
+				<ui:insert name="content"></ui:insert>
+			</div>
+			<!--  <div class="footer">Jesteś zalogowany jako : #{loginBean.name}</div> -->
+		</p:layoutUnit>
+	</p:layout>
+
+</h:body>
+</html>

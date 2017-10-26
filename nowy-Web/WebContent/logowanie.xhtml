@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/resources/szablonBezMenu.xhtml">
+	<ui:define name="content">
+		<h:panelGroup class="header-panel" layout="block">
+	    	Logowanie
+	    </h:panelGroup>
+
+		<h:panelGroup class="panel-small" layout="block"
+			style="height:200px; width:400px;  ">
+			<h:form>
+			<p:growl id="msgs" showDetail="true" life="1500" />
+				<table style="padding: 40px; margin: auto; ">
+					<tr>
+						<td>Login:</td>
+						<td>
+							<p:inputText value="#{loginBean.name}"
+								requiredMessage="Please enter your Lastname">
+							</p:inputText>
+						</td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td>
+							<p:password value="#{loginBean.pass}"  requiredMessage="proszę uzupełnić hasło"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p:commandButton value="Zaloguj"  icon="ui-icon-locked"  action="#{loginBean.zaloguj()}" >
+							</p:commandButton>
+						</td>
+						<td>
+							<p:commandButton style="margin-left: 50px" value="Zarejestruj" icon="ui-icon-plusthick"  action="#{loginBean.idzDoRejestracji()}">
+							</p:commandButton>
+						</td>
+					</tr>
+				</table>
+			</h:form>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

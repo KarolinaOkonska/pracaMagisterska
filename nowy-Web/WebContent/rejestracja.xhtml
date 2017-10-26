@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/resources/szablonBezMenu.xhtml">
+	<ui:define name="content">
+		<h:panelGroup class="header-panel" layout="block">
+	    	Rejestracja
+	    </h:panelGroup>
+		<h:panelGroup>
+			<h:form>
+
+				<h:panelGrid columns="2" id="matchGrid" cellpadding="5">
+					<p:outputLabel for="nick" value="Nick:" />
+					<p:inputText id="nick" value="#{rejestracjaBean.login}"
+						required="true" requiredMessage="proszę uzupełnić nick"/>
+
+					<h:outputLabel for="pass1" value="Hasło: " />
+					<p:password id="pass1" value="#{rejestracjaBean.haslo}"
+						match="pass2" label="Hasło" required="true" requiredMessage="proszę uzupełnić hasło"
+						validatorMessage="podane hasła się różnią"/>
+
+					<h:outputLabel for="pass2" value="Powtórz hasło " />
+					<p:password id="pass2" value="#{rejestracjaBean.haslo}"
+						label="Hasło" required="true" requiredMessage="proszę uzupełnić hasło"/>
+				</h:panelGrid>
+
+				<p:spacer height="10" />
+
+				<p:separator />
+
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel for="woj" value="Województwo:" />
+					<p:selectOneMenu id="woj" value="#{rejestracjaBean.woj}"
+							style="width:125px"  required="true" requiredMessage="proszę wybrać województwo">
+						<f:selectItem itemLabel="Województwo" itemValue="" />
+						<f:selectItems value="#{rejestracjaBean.wojewodztwa}" var="wojewodztwo"
+		             		itemValue="#{wojewodztwo}" itemLabel="#{wojewodztwo.nazwa}"  />
+					</p:selectOneMenu>
+					<h:outputLabel for="email" value="Email: " />
+					<p:inputText id="email" value="#{rejestracjaBean.mail}" 
+					 	required="true" requiredMessage="proszę uzupełnić email">
+					</p:inputText>
+					<p:commandButton value="Zapisz" ajax="false" 
+						icon="ui-icon-check" validateClient="true" 
+						action="#{rejestracjaBean.zarejestrujOsobe()}">
+					</p:commandButton>
+				</h:panelGrid>
+				
+			</h:form>
+			<h:form>
+				<p:commandButton style="margin-left: 6px" value="Do logowania" icon="ui-icon-locked" 
+					action="#{rejestracjaBean.idzDoLogowania()}">
+				</p:commandButton>
+			</h:form>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

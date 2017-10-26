@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/resources/szablon.xhtml">
+	<ui:define name="content">
+		<h:panelGroup class="header-panel" layout="block">
+	    	Mandaty
+	    </h:panelGroup>
+
+		<p:fieldset legend="Wprowadzanie danych" toggleable="true" toggleSpeed="500" collapsed="true">
+			<h:form accept-charset="UTF-8">
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel for="miasto" value="Miasto:" />
+				    <p:inputText id="miasto"  value="#{pobierzMandatyBean.miasto}" >
+				    	<p:ajax listener="#{pobierzMandatyBean.updMiasto}" update="miasto"/>	
+				    </p:inputText>
+				     
+				    <p:outputLabel for="rodzajWykroczenia" value="Rodzaj wykroczenia:" />
+				    <p:inputText id="rodzajWykroczenia"  value="#{pobierzMandatyBean.rodzajWykroczenia}" >
+				    	<p:ajax listener="#{pobierzMandatyBean.updRodzajWykroczenia}" update="rodzajWykroczenia"/>	
+				    </p:inputText>
+				    
+					<p:outputLabel for="dataOtrzymania" value="Data otrzymania: " />
+					<p:calendar id="dataOtrzymania"	value="#{pobierzMandatyBean.dataOtrzymania}" locale="pl"
+							navigator="true" pattern="yyyy-MM-dd" mask="true" >
+						<p:ajax event="dateSelect" listener="#{pobierzMandatyBean.updateDataOtrzymania}" update="dataOtrzymania"/>
+						<f:convertDateTime pattern="yyyy-MM-dd"  timeZone="GMT+1" />
+					</p:calendar>
+										 
+					<p:outputLabel for="kwota" value="Kwota:" />
+					<p:spinner id="kwota" value="#{pobierzMandatyBean.kwota}" stepFactor="1" >
+						<p:ajax listener="#{pobierzMandatyBean.kwota}" update="kwota" process="@this" />
+					</p:spinner>
+					
+					<p:outputLabel for="ilPkt" value="Ilość punktów:" />
+					<p:spinner id="ilPkt" value="#{pobierzMandatyBean.otrzymanePkt}" stepFactor="1" >
+						<p:ajax listener="#{pobierzMandatyBean.otrzymanePkt}" update="ilPkt" process="@this" />
+					</p:spinner>
+				    
+				    <h:outputText  />
+				    <h:commandButton value="Zapisz" >
+						<p:ajax event="click" listener="#{pobierzMandatyBean.zapiszMandat()}" update="@form"></p:ajax>
+					</h:commandButton>
+				</h:panelGrid>
+				
+				
+			</h:form>
+		</p:fieldset>
+		<p:fieldset legend="Podgląd danych" toggleable="true" toggleSpeed="500" >
+			<h:form accept-charset="UTF-8">
+				<!-- <h:panelGrid columns="4" cellpadding="5">
+					<h:commandButton process="@form" value="Pobierz" >
+						<p:ajax event="click" listener=#{pobierzMandatyBean.pobierzMandatyOsoby()} update="rowEditingTable"></p:ajax>
+					</h:commandButton>
+				</h:panelGrid>  -->
+			
+				<p:dataTable id="rowEditingTable" var="mandat"
+					widgetVar="przegladyTable" value="#{pobierzMandatyBean.mandaty}"
+					paginator="true" rows="10"
+					paginatorPosition="bottom" style="width:1000px" editable="true">
+				<f:facet name="header">  
+            		Twoje mandaty
+        		</f:facet>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Miasto" />
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{mandat.miasto}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{mandat.miasto}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Rodzaj wykroczenia" />
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{mandat.rodzajWykroczenia}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{mandat.rodzajWykroczenia}" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Data otrzymania" />
+							<f:facet name="filter">
+								<h:outputText value=" " />
+							</f:facet>
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{mandat.dataOtrzymania}">
+									
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:calendar value="#{mandat.dataOtrzymania}" locale="pl"
+										navigator="true" pattern="yyyy-MM-dd" mask="true" >
+									
+									<f:convertDateTime pattern="yyyy-MM-dd"  timeZone="GMT+1" />
+								</p:calendar>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Otrzymane pkt" />
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{mandat.otrzymanePkt}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:spinner value="#{mandat.otrzymanePkt}" stepFactor="1.00"
+								 style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Kwota" />
+						</f:facet>
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{mandat.kwota}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:spinner value="#{mandat.kwota}" stepFactor="1"
+								 style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column style="width:4%" exportable="false">
+						<p:rowEditor />
+					</p:column>
+				</p:dataTable>
+				<br/>
+				<h:commandButton value="Zapisz zmiany"  update="msgs">
+					<p:ajax event="click" listener="#{pobierzPaliwoBean.zapiszEdytowane()}" ></p:ajax>
+				</h:commandButton>
+				<br/>
+				<br/> 
+				
+			</h:form>
+			 
+		</p:fieldset>
+	</ui:define>
+</ui:composition>
+</html>
