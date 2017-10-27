@@ -37,6 +37,7 @@ public class LoginBean implements Serializable {
 	private SamochodDTO samochodKontekstowy;
 	private boolean zalogowany = false;
 	private boolean wylaczMenu = false;
+	private String email;
 	
 	@ManagedProperty(value = "#{naviBean}")
 	private NaviBean naviBean;
@@ -164,6 +165,14 @@ public class LoginBean implements Serializable {
 
 	public void setWylaczMenu(boolean wylaczMenu) {
 		this.wylaczMenu = wylaczMenu;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 
