@@ -38,6 +38,7 @@ public class LoginBean implements Serializable {
 	private boolean zalogowany = false;
 	private boolean wylaczMenu = false;
 	private String nazwisko;  
+	private String email;
 	
 	@ManagedProperty(value = "#{naviBean}")
 	private NaviBean naviBean;
@@ -173,6 +174,13 @@ public class LoginBean implements Serializable {
 
 	public void setNazwisko(String nazwisko) {
 		this.nazwisko = nazwisko;
+	}
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 
