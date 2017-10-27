@@ -63,7 +63,9 @@ public class LoginBean implements Serializable {
 			} else {
 				wylaczMenu = true;
 			}
-
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Toggled", "Visibility:" );
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	        
 			return naviBean.toWelcome();
 		}
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Toggled", "Visibility:" );
