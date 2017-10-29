@@ -12,7 +12,11 @@ public class LogowanieServiceBean implements LogowanieService {
 	@PersistenceContext
 	private EntityManager em;
 
+<<<<<<< HEAD
 	private String imie;
+=======
+	private String email;
+>>>>>>> 22adbacd69eae9f2bf017321774870e75d32e02e
 
 	public Long pobierzIdOsoby(String login, String password) {
 		Long id = -1L;
