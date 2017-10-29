@@ -34,8 +34,8 @@ public class Osoba implements Serializable {
 	@OneToOne(fetch=FetchType.LAZY, mappedBy="osoba", cascade=CascadeType.ALL)
 	private User user;
 
-	
 
+	private String nazwisko;
 	public long getId() {
 		return id;
 	}
