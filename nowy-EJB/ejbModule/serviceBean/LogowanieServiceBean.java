@@ -12,6 +12,8 @@ public class LogowanieServiceBean implements LogowanieService {
 	@PersistenceContext
 	private EntityManager em;
 
+	private String email;
+
 	public Long pobierzIdOsoby(String login, String password) {
 		Long id = -1L;
 		Long count = (Long) em
