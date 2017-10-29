@@ -29,7 +29,6 @@ public class Osoba implements Serializable {
 	
 	@Enumerated(EnumType.STRING)
 	private Wojewodztwo wojewodztwo;
-	private String mail;
 	private String miasto;
 	
 	@OneToOne(fetch=FetchType.LAZY, mappedBy="osoba", cascade=CascadeType.ALL)
@@ -41,12 +40,6 @@ public class Osoba implements Serializable {
 	}
 	public void setId(long id) {
 		this.id = id;
-	}
-	public String getMail() {
-		return mail;
-	}
-	public void setMail(String mail) {
-		this.mail = mail;
 	}
 	public Wojewodztwo getWojewodztwo() {
 		return wojewodztwo;
