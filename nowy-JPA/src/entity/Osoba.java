@@ -55,5 +55,7 @@ public class Osoba implements Serializable {
 	public void setMiasto(String miasto) {
 		this.miasto = miasto;
 	}
+
+	private String mao;
 	
 }
