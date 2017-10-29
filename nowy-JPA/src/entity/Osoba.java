@@ -35,7 +35,7 @@ public class Osoba implements Serializable {
 	private User user;
 	private String email;
 
-
+	private String nazwisko;
 	public long getId() {
 		return id;
 	}
