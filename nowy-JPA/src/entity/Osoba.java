@@ -30,6 +30,7 @@ public class Osoba implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Wojewodztwo wojewodztwo;
 	private String miasto;
+	private String test;
 	
 	@OneToOne(fetch=FetchType.LAZY, mappedBy="osoba", cascade=CascadeType.ALL)
 	private User user;
